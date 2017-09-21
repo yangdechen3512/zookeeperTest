@@ -1,0 +1,33 @@
+#agent section
+agent.sources = s1
+agent.channels = c1
+agent.sinks = s2
+
+agent.sources.s1.type = syslogudp
+agent.sources.s1.port = 1111
+agent.sources.s1.host = 0.0.0.0
+
+agent.sources.s1.interceptors=i1 i2
+
+agent.sources.s1.interceptors.i1.type=static
+agent.sources.s1.interceptors.i1.key = vender
+agent.sources.s1.interceptors.i1.value = QTF
+
+agent.sources.s1.interceptors.i2.type=com.quantongfu.ewifi.jx.flume.interceptor.JXInterceptor$Builder
+agent.sources.s1.interceptors.i2.extractorHeaderKey=vender
+
+
+agent.sinks.s2.type = file_roll
+agent.sinks.s2.sink.directory = /data/qtf/
+agent.sinks.s2.sink.rollInterval = 3600
+
+agent.channels.c1.type = memory
+agent.channels.c1.capacity = 100000
+agent.channels.c1.transactionCapacity = 100000
+agent.channels.c1.byteCapacityBufferPercentage = 20
+agent.channels.c1.byteCapacity = 800000
+agent.channels.c1.byteCapacity = 800000
+
+agent.sources.s1.channels = c1
+agent.sinks.s1.channel = c1
+agent.sinks.s2.channel = c1
